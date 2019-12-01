@@ -1,0 +1,564 @@
+
+	<html>
+		<head><title>Performance analysis</title></head>
+		<link rel="stylesheet" type="text/css" href="C:\Users\estudiante\Desktop\Python GUI/Performance/Resources/Stylesheet.css"/>
+		<link rel="stylesheet" type="text/css" href="C:\Users\estudiante\Desktop\Python GUI/Performance/Resources/df_style.css"/>
+		<body> 
+		<div>			
+			<h1>PERFORMANCE ANALYSIS</h1>
+			
+			<h2>Computer characteristics</h2>
+			<ul>
+				<li><p>Computer: 11A001E424171461.</p></li>
+				<li><p>Operative system: Windows </p></li>
+				<li><p>Version: 10.</p></li>
+				<li><p>Processor: Intel64 Family 6 Model 60 Stepping 3, GenuineIntel</p></li>
+				<li><p>CPU: Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz</p></li>
+			</ul> 
+			
+			<h2>Software analysis</h2>
+			<p>The process took 0.281000 seconds to execute</p>
+			<img src="C:\Users\estudiante\Desktop\Python GUI/Output/Pictures/file.png" alt=""/>			
+			<h3>Table 1</h3>
+			<p> This table gives us the following information: </p>
+			<ul>
+				<li><p>time: the percentage of the total running time of the program used by this function. </p></li>
+				<li><p>Accumulative seconds: a running sum of the number of seconds accounted for by this function and those listed above it.</p></li>
+				<li><p>Self seconds: the number of seconds accounted for by this function alone. This is the major sort for this listing.</p></li>
+				<li><p>Calls: the number of times this function was invoked, if this function is profiled, else blank.</p></li>
+				<li><p>Self ms/call: the average number of milliseconds spent in this ms/call function per call, if this function is profiled, else blank.</p></li>
+				<li><p>total ms/call: the average number of milliseconds spent in this function and its descendents per call, if this function is profiled, else blank.</p></li>
+				<li><p>Name: the name of the function.</p></li>
+			</ul>
+			<p>Each sample counts as 0.01 seconds.</p>
+			<table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>Time</th>
+      <th>Accumulative seconds</th>
+      <th>Self seconds</th>
+      <th>calls</th>
+      <th>ms/call</th>
+      <th>ms/call</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>14.29</td>
+      <td>0.07</td>
+      <td>0.01</td>
+      <td>427783.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Vector +</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>1012038.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Vector -</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Vector cross</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>764618.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Vector dotPoint</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>397468.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Vector normalize</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>488387.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Vector scale</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>457757.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>SQRT</td>
+    </tr>
+    <tr>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>29976.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Pow</td>
+    </tr>
+  </tbody>
+</table>
+			<p>To get a better understanding, some table columns were graphed</p>
+			<img src="C:\Users\estudiante\Desktop\Python GUI/Output/Performance/images/img1.png" alt="Image 1">
+			<img src="C:\Users\estudiante\Desktop\Python GUI/Output/Performance/images/img2.png" alt="Image 2">
+			
+			<h3>Table 2</h3>
+			<p>This table describes the call tree of the program, and was sorted by the total amount of time spent in each function and its children.
+			Each entry in this table consists of several lines.  The line with the
+			index number at the left hand margin lists the current function.
+			The lines above it list the functions that called this function,
+			and the lines below it list the functions this one called. 
+			This line lists:</p>
+			<ul>
+				<li><p>index: A unique number given to each element of the table. Index numbers are sorted numerically.
+							The index number is printed next to every function name so it is easier to look up where the function is in the table. </p></li>
+				<li><p>time:  This is the percentage of the 'total' time that was spent
+							in this function and its children.  Note that due to
+							different viewpoints, functions excluded by options, etc,
+							these numbers will NOT add up to 100%.</p></li>
+				<li><p>self:  This is the total amount of time spent in this function.</p></li>
+				<li><p>children:  This is the total amount of time propagated into this function by its children.</p></li>
+				<li><p>called:  This is the number of times the function was called. If the function called itself recursively, the number
+								only includes non-recursive calls, and is followed by
+								a '+' and the number of recursive calls.</p></li>
+				<li><p>total ms/call: the average number of milliseconds spent in this function and its descendents per call, if this function is profiled, else blank.</p></li>
+				<li><p>total ms/call: the average number of milliseconds spent in this function and its descendents per call, if this function is profiled, else blank.</p></li>
+				<li><p>Name: the name of the function.</p></li>
+			</ul> 
+			<p>For the function's parents, the fields have the following meanings:</p>
+			<ul>
+				<li><p>self		This is the amount of time that was propagated directly from the function into this parent.</p></li>
+				<li><p>children	This is the amount of time that was propagated from the function's children into this parent.</p></li>
+				<li><p>called	This is the number of times this parent called the function '/' the total number of times the function
+								was called.  Recursive calls to the function are not included in the number after the '/'.</p></li>
+				<li><p>name		This is the name of the parent.  The parent's index
+								number is printed after it.  If the parent is a
+								member of a cycle, the cycle number is printed between
+								the name and the index number.</p></li>
+			</ul> 
+		
+			<h3>Table 2.1</h3> <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>index</th>
+      <th>% time</th>
+      <th>self</th>
+      <th>children</th>
+      <th>called</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[1]</td>
+      <td>100.0</td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>1</td>
+      <td>RayTracer::trace(int)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>307200/337345</td>
+      <td>RayTracer::intersectionTest(Ray*, Primitive**)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>307200/307200</td>
+      <td>Ray::Ray(Vector, Vector)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>307200/307200</td>
+      <td>RayTracer::shading(Ray, Primitive*, int)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>307200/427783</td>
+      <td>Vector +</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>307680/488387</td>
+      <td>Vector scale</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>307200/1012038</td>
+      <td>Vector -</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>307200/2017821</td>
+      <td>Vector::Vector(Vector const&amp;)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>307200/674690</td>
+      <td>Ray::Ray(Ray const&amp;)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>307200/307203</td>
+      <td>Color::operator*(float const&amp;) const</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>2/3066271</td>
+      <td>Vector::Vector()</td>
+    </tr>
+  </tbody>
+</table> <br>
+			<h3>Table 2.2</h3> <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>index</th>
+      <th>% time</th>
+      <th>self</th>
+      <th>children</th>
+      <th>called</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>2/3066271</td>
+      <td>Vector::Vector()</td>
+    </tr>
+    <tr>
+      <td>[2]</td>
+      <td>100.0</td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td></td>
+      <td>_fu3___ZSt4cout</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.07</td>
+      <td>1/1</td>
+      <td>RayTracer::trace(int)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>1/1</td>
+      <td>RayTracer::~RayTracer()</td>
+    </tr>
+  </tbody>
+</table> <br> 
+			<h3>Table 2.3</h3> <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>index</th>
+      <th>% time</th>
+      <th>self</th>
+      <th>children</th>
+      <th>called</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>30145/337345</td>
+      <td>RayTracer::fullScale(Vector, Vector, Vector, Color, Color, float)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>307200/337345</td>
+      <td>RayTracer::trace(int)</td>
+    </tr>
+    <tr>
+      <td>[3]</td>
+      <td>58.2</td>
+      <td>0.00</td>
+      <td>0.04</td>
+      <td>337345</td>
+      <td>RayTracer::intersectionTest(Ray*, Primitive**)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>337345/337345</td>
+      <td>Sphere::rayIntersection(Ray*, Primitive**)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>674690/674695</td>
+      <td>std::vector&lt;Primitive*, std::allocator&lt;Primitive*&gt; &gt;::size() const</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>337345/674690</td>
+      <td>Ray::Ray(Ray const&amp;)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>337345/337345</td>
+      <td>std::vector&lt;Primitive*, std::allocator&lt;Primitive*&gt; &gt;::operator[](unsigned int)</td>
+    </tr>
+  </tbody>
+</table> <br> 
+			<h3>Table 2.4</h3> <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>index</th>
+      <th>% time</th>
+      <th>self</th>
+      <th>children</th>
+      <th>called</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>337345/337345</td>
+      <td>RayTracer::intersectionTest(Ray*, Primitive**)</td>
+    </tr>
+    <tr>
+      <td>[4]</td>
+      <td>43.9</td>
+      <td>0.03</td>
+      <td>0.00</td>
+      <td>337345</td>
+      <td>Sphere::rayIntersection(Ray*, Primitive**)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>30314/60459</td>
+      <td>Ray::setP()</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>674690/2017821</td>
+      <td>Vector::Vector(Vector const&amp;)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>674690/764618</td>
+      <td>Vector dotPoint</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>337345/1012038</td>
+      <td>Vector -</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>60289/457757</td>
+      <td>SQRT</td>
+    </tr>
+  </tbody>
+</table> <br> 
+			<h3>Table 2.5</h3> <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>index</th>
+      <th>% time</th>
+      <th>self</th>
+      <th>children</th>
+      <th>called</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>2/397468</td>
+      <td>RayTracer::ScreenItrInfo()</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>30145/397468</td>
+      <td>Sphere::getNormal(Vector)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>60121/397468</td>
+      <td>RayTracer::fullScale(Vector, Vector, Vector, Color, Color, float)</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>307200/397468</td>
+      <td>Ray::Ray(Vector, Vector)</td>
+    </tr>
+    <tr>
+      <td>[5]</td>
+      <td>28.6</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>397468</td>
+      <td>Vector normalize</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>397468/397468</td>
+      <td>Vector::operator/(float const&amp;) const</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>397468/397468</td>
+      <td>Vector::lenght()</td>
+    </tr>
+  </tbody>
+</table> <br>
+			<h3>Table 2.6</h3> <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>index</th>
+      <th>% time</th>
+      <th>self</th>
+      <th>children</th>
+      <th>called</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>397468/397468</td>
+      <td>Vector normalize</td>
+    </tr>
+    <tr>
+      <td>[6]</td>
+      <td>28.6</td>
+      <td>0.02</td>
+      <td>0.00</td>
+      <td>397468</td>
+      <td>Vector::operator/(float const&amp;) const</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>397468/2325678</td>
+      <td>Vector::Vector(float, float, float)</td>
+    </tr>
+  </tbody>
+</table> <br>
+			
+			<h2>Hardware analysis</h2>
+			<p>The process took 0.018000000000000002 seconds to execute</p>
+			<p> The image generated by the FPGA is the following one: </p>
+			<img src="C:\Users\estudiante\Desktop\Python GUI/Output/Pictures/FPGA.png" alt=""/>	
+		</div>
+		</body>
+	</html>.
+	
