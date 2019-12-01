@@ -3,30 +3,65 @@ import cpuinfo
 import os
 import pandas as pd
 import pdfkit as pdf
-currentDirectory = os.getcwd();
-from .Comparation import Method1,Method2,Method3,Method4
+currentDirectory = os.getcwd()
+from .Comparation import Method1,Method2,Method3
 
-def generatePDF(dframe,tables,softwareTime,hardwareTime):
+def generatePDF(dframe,tables,softwareTime,hardwareTime,option):
 	pd.set_option('colheader_justify', 'center')   # FOR TABLE <th>
-	html_string = '''
-	<html>
-		<head><title>Performance analysis</title></head>
-		<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/Stylesheet.css"/>
-		<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/df_style.css"/>
-		<body> 
-		<div>			
-			<h1>PERFORMANCE ANALYSIS</h1>
-			{ComputerInfo}
-			{Software}
-			{Hardware}
-		</div>
-		</body>
-	</html>.
-	'''
-	html_string = html_string.format(	ComputerInfo= getComputerInfo(),
-										Software= getSoftware(dframe,tables,softwareTime),
-										Hardware= getHardware(hardwareTime),
-										dirActual= currentDirectory)
+	html_string = ""
+	if option == 1:
+		html_string = '''
+		<html>
+			<head><title>Performance analysis</title></head>
+			<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/Stylesheet.css"/>
+			<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/df_style.css"/>
+			<body> 
+			<div>			
+				<h1>PERFORMANCE ANALYSIS</h1>
+				{Software}
+			</div>
+			</body>
+		</html>.
+		'''
+		html_string = html_string.format(	Software= getSoftware(dframe,tables,softwareTime),
+											dirActual= currentDirectory)
+	elif option == 2:
+		html_string = '''
+		<html>
+			<head><title>Performance analysis</title></head>
+			<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/Stylesheet.css"/>
+			<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/df_style.css"/>
+			<body> 
+			<div>			
+				<h1>PERFORMANCE ANALYSIS</h1>
+				{Hardware}
+			</div>
+			</body>
+		</html>.
+		'''
+		html_string = html_string.format(	Hardware= getHardware(hardwareTime),
+											dirActual= currentDirectory)
+	elif option == 3:
+		html_string = '''
+		<html>
+			<head><title>Performance analysis</title></head>
+			<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/Stylesheet.css"/>
+			<link rel="stylesheet" type="text/css" href="{dirActual}/Performance/Resources/df_style.css"/>
+			<body> 
+			<div>			
+				<h1>PERFORMANCE ANALYSIS</h1>
+				{Software}
+				{Hardware}
+				{Comparation}
+			</div>
+			</body>
+		</html>.
+		'''
+		html_string = html_string.format(	Software= getSoftware(dframe,tables,softwareTime),
+											Hardware= getHardware(hardwareTime),
+											dirActual= currentDirectory,
+											Comparation = getComparation())
+
 
 	# OUTPUT AN HTML FILE
 	htmlDir = currentDirectory + "/Output/Performance/myhtml.html"
@@ -36,16 +71,66 @@ def generatePDF(dframe,tables,softwareTime,hardwareTime):
 	pdf.from_file(htmlDir, PdfFilename)
 
 
+
+def getComparation():
+	Method1()
+	Method2()
+	[comE,rms] = Method3()
+	comparation_string = '''
+		<h3>Computer characteristics</h3>
+		<ul>
+			<li><p>Método de Histogramas usando OpenCV:
+				Como segundo método se emplearon las funciones provistas por la librería de OpenCV para poder determinar los histogramas de las 
+				imágenes a evaluar. Para ello después de obtener la imagen se procede a pasar la imagen a escala de grises para posteriormente 
+				hallar el histograma.  El histograma utilizado hace referencia a la frecuencia con la que aparecen los distintos niveles de 
+				intensidad de una imagen a escala de grises, cuyo rango de intensidad va de 0 a 255, a partir de un histograma también podemos 
+				determinar información extra como el brillo, contraste y dinámica de una imagen.
+				<img src="{dirActual}/Output/Performance/images/imgMethod2.png" alt="Image 2"> </p></li>
+			<li><p>Método de Histogramas en archivo de texto plano:
+				El tercer método es muy parecido al anterior ya que cumple el mismo principio de representar una imagen a través de un 
+				histograma en donde podemos evaluar la distribución de los distintos niveles de intensidad, pero a diferencia del segundo método, 
+				en este tercer método no se lee directamente la imagen sino el archivo en texto plano que contiene toda la información de la 
+				imagen.
+				<img src="{dirActual}/Output/Performance/images/imgMethod3.png" alt="Image 3"> </p></li>
+			<li><p>Método de Comparación Exacta y RMS:
+				Para este cuarto método se utilizó la librería de ImageChops la cual nos permite hallar la diferencia entre dos imágenes, 
+				así como también sus respectivos histogramas. De este método obtenemos dos resultados importantes, el primero es el valor RMS, 
+				para ello se halla la diferencia, posteriormente se obtiene el histograma de la diferencia y a este resultado se procede a 
+				calcular su correspondiente valor RMS, entre más cercano sea el valor RMS de la diferencia de las imágenes, más idénticas 
+				son entre ellas.  <br>
+				El segundo valor que ofrece este método es la diferencia de cada uno de los pixeles de las imágenes más un vector que calcula 
+				el cuadro delimitador de las regiones distintas a cero entre las imágenes, entre más cercano sea el valor a cero, más idénticas 
+				son las imágenes. De los valores mencionados el que tiene mayor peso es el valor RMS, mientras que la comparación exacta debe 
+				analizarse utilizando el primer valor provisto por el método. <br>
+				Comparacion exacta = {exactComparation}  <br>
+				Valor RMS = {rmsValue}  <br>
+		</ul>'''
+	comparation_string = comparation_string.format(	dirActual= currentDirectory,
+													exactComparation= comE,
+													rmsValue= rms)
+	return comparation_string
+    
+    
+def getHardware(hardwareTime):
+	hardware_string = '''
+		<h2>Hardware analysis</h2>
+		<p>The process took {Time} seconds to execute</p>
+		<p> The image generated by the FPGA is the following one: </p>
+		<img src="{dirActual}/Output/Pictures/FPGA.png" alt=""/>	'''
+	hardware_string = hardware_string.format(	dirActual= currentDirectory,
+												Time= hardwareTime)
+	return hardware_string
+
 def getComputerInfo():
 	computer_string = '''
-			<h2>Computer characteristics</h2>
-			<ul>
-				<li><p>Computer: {computer}.</p></li>
-				<li><p>Operative system: {operativeSystem} </p></li>
-				<li><p>Version: {version}.</p></li>
-				<li><p>Processor: {processor}</p></li>
-				<li><p>CPU: {cpu}</p></li>
-			</ul> '''
+		<h3>Computer characteristics</h3>
+		<ul>
+			<li><p>Computer: {computer}.</p></li>
+			<li><p>Operative system: {operativeSystem} </p></li>
+			<li><p>Version: {version}.</p></li>
+			<li><p>Processor: {processor}</p></li>
+			<li><p>CPU: {cpu}</p></li>
+		</ul> '''
 	computer_string = computer_string.format(	computer= platform.uname()[1],
 												operativeSystem= platform.uname()[0],
 												version= platform.uname()[2],
@@ -53,30 +138,11 @@ def getComputerInfo():
 												cpu= cpuinfo.get_cpu_info()['brand'])
 	return computer_string
 
-def getComparation():
-    Method1()
-    Method2()
-    Method3()
-    [comE,rms] = Method4()
-    print("Compararacion exacta: "+str(comE))
-    print("RMS: "+str(rms))
-    
-    
-    
-def getHardware(hardwareTime):
-	hardware_string = '''
-			<h2>Hardware analysis</h2>
-			<p>The process took {Time} seconds to execute</p>
-			<p> The image generated by the FPGA is the following one: </p>
-			<img src="{dirActual}/Output/Pictures/FPGA.png" alt=""/>	'''
-	hardware_string = hardware_string.format(	dirActual= currentDirectory,
-												Time= hardwareTime)
-	return hardware_string
-
 def getSoftware(dframe,tables,softwareTime): 
 	
 	software_string = '''
 			<h2>Software analysis</h2>
+			{ComputerInfo}
 			<p>The process took {Time} seconds to execute</p>
 			<img src="{dirActual}/Output/Pictures/file.png" alt=""/>			
 			<h3>Table 1</h3>
@@ -137,7 +203,8 @@ def getSoftware(dframe,tables,softwareTime):
 			<h3>Table 2.4</h3> {table4} <br> 
 			<h3>Table 2.5</h3> {table5} <br>
 			<h3>Table 2.6</h3> {table6} <br>'''
-	software_string = software_string.format( 	Time=softwareTime,
+	software_string = software_string.format( 	ComputerInfo= getComputerInfo(),
+												Time=softwareTime,
                                                 dirActual= currentDirectory,
                                                 table0=dframe.to_html(classes='mystyle',index=False),
 												table1=tables[0].to_html(classes='mystyle',index=False),

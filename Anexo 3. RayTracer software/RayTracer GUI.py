@@ -15,7 +15,7 @@ from PIL import Image, ImageTk, ImageChops
 from glob import glob 
 from Performance.performance import performanceReport
 
-currentDirectory = os.getcwd();
+currentDirectory = os.getcwd()
 #Definición de Funciones y selfs
 class RayTracerGUI:
     def __init__(self):
@@ -39,6 +39,10 @@ class RayTracerGUI:
         self.port = None
         self.portLabel = None
         self.portList = None
+        #Software Option
+        self.LabelOp = None
+        self.portOption = None
+        self.softwareOption = StringVar()
         #Frame positions
         self.frame1 = 0
         self.frame2 = 150
@@ -201,6 +205,23 @@ class RayTracerGUI:
                 self.portLabel.destroy()
             except:
                 pass
+
+    def showAvaliableOptions(self):
+        #Set avaliable ports at RayTracerGUI
+        if(not(self.software.get() and self.hardware.get()) and self.software.get()):
+            self.portLabelOp=Label(self.GUI,font=self.iLabelFont,text="Option")
+            self.portLabelOp.place(x=180,y=self.frame2+30)
+            self.portOption=ttk.Combobox(self.GUI,state="readonly")
+            self.portOption.place(x=230,y=self.frame2+30)
+            portNamesOp = ["Color","Escala de Grises","Escala de Grises FPGA"]
+            self.portOption["values"] = portNamesOp
+            self.portOption.config(textvariable = self.softwareOption)
+        else:
+            try:
+                self.portOption.destroy()
+                self.portLabelOp.destroy()
+            except:
+                pass
     
     def softwareAction(self,option):
         print(self.sceneName)
@@ -220,22 +241,43 @@ class RayTracerGUI:
         
     def run(self): 
         if len(self.sceneInfo) != 0:
-            if(self.software.get() and self.report.get() and self.hardware.get()):
-                 self.softwareAction(3)
-                 subprocess.check_call("gprof main.exe gmon.out > Output/Performance/reporte.txt ",shell=True)
-                 performanceReport(self.softwareTime,self.hardwareTimem,1)
+            if (self.hardware.get() and self.software.get()):
+                if(self.report.get()):
+                    self.softwareAction(3)
+                    subprocess.check_call("gprof main.exe gmon.out > Output/Performance/reporte.txt ",shell=True)
+                    subprocess.check_call("python Output/Performance/gprof2dot.py -n0.5 -s Output/Performance/reporte.txt > Output/Performance/reporte.dot",shell=True)
+                    subprocess.check_call("dot -Tpng Output/Performance/reporte.dot -Gcharset=latin1 -o Output/Performance/reporte.png",shell=True)
+                    self.hardwareAction()
+                    performanceReport(self.softwareTime,self.hardwareTime,3)
+                else:
+                    self.softwareAction(3)
+                    self.hardwareAction()
             elif (self.software.get()):
                 if(self.report.get()):
-                    self.softwareAction(1)
+                    if(self.softwareOption.get() == "Color"):
+                        self.softwareAction(1)
+                    elif(self.softwareOption.get() == "Escala de Grises"):
+                        self.softwareAction(2)
+                    else:
+                        self.softwareAction(3)
                     subprocess.check_call("gprof main.exe gmon.out > Output/Performance/reporte.txt ",shell=True)
+                    subprocess.check_call("python Output/Performance/gprof2dot.py -n0.5 -s Output/Performance/reporte.txt > Output/Performance/reporte.dot",shell=True)
+                    subprocess.check_call("dot -Tpng Output/Performance/reporte.dot -Gcharset=latin1 -o Output/Performance/reporte.png",shell=True)
                     performanceReport(self.softwareTime,self.hardwareTime,1)
                 else:
-                    self.softwareAction(1)
+                    if(self.softwareOption.get() == "Color"):
+                        self.softwareAction(1)
+                    elif(self.softwareOption.get() == "Escala de Grises"):
+                        self.softwareAction(2)
+                    else:
+                        self.softwareAction(3)
             elif (self.hardware.get()):
-                self.hardwareAction()
-            elif (self.hardware.get() and self.software.get()):
-                self.hardwareAction()
-                self.softwareAction(1)
+                if(self.report.get()):
+                    self.hardwareAction()
+                    subprocess.check_call("gprof main.exe gmon.out > Output/Performance/reporte.txt ",shell=True)
+                    performanceReport(self.softwareTime,self.hardwareTime,2)
+                else:
+                    self.hardwareAction()
             else:
                 self.popup("Select an option first")
         else:
@@ -261,7 +303,7 @@ class RayTracerGUI:
         Label(self.GUI,font=self.labelFont,text="Hardware").place(x=40,y=self.frame2+60)
         Label(self.GUI,font=self.labelFont,text="Report").place(x=40,y=self.frame2+90)
         #Set check button
-        Checkbutton(self.GUI,variable=self.software,onvalue=1,offvalue=0).place(x=150,y=self.frame2+30)
+        Checkbutton(self.GUI,variable=self.software,onvalue=1,offvalue=0,command=self.showAvaliableOptions).place(x=150,y=self.frame2+30)
         Checkbutton(self.GUI,variable=self.hardware,onvalue=1,offvalue=0,command=self.showAvaliablePorts).place(x=150,y=self.frame2+60)
         Checkbutton(self.GUI,variable=self.report,onvalue=1,offvalue=0).place(x=150,y=self.frame2+90)
         style = Style() 
@@ -269,7 +311,7 @@ class RayTracerGUI:
         #Set buttons
         Button(self.GUI,style='TButton',text="Pick",width=5,command=self.pick).place(x=200,y=self.frame1+60)
         Button(self.GUI,style='TButton',text="Open",width=5,command=self.openReport).place(x=230,y=self.frame2+90)
-        Button(self.GUI,style='TButton',text="View image",width=11,command=self.openImage).place(x=230,y=self.frame2+40)
+        Button(self.GUI,style='TButton',text="View image",width=11,command=self.openImage).place(x=230,y=self.frame2+60)
         Button(self.GUI,style='TButton',text="RUN",width=5,command=self.run).place(x=160,y=self.frame3)	
         #Create software object
         subprocess.check_call("g++ -Wall -pg RayTracer/main.cpp -o main.exe",shell=True)
